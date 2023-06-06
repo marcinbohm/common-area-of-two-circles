@@ -9,26 +9,23 @@ import java.io.*;
  */
 public class Main
 {
-    public static double areaOfIntersection(int centerX1, int centerY1, int radius1, int centerX2, int centerY2, int radius2)
-    {
-        double  answer = 0;
-        double d = 0;
-
-        d = Math.sqrt(Math.pow((centerX2 - centerX1),2) + Math.pow((centerY2 - centerY1),2));
+    public static double areaOfIntersection(int centerX1, int centerY1, int radius1, int centerX2, int centerY2, int radius2) {
+        double d = Math.sqrt(Math.pow(centerX2 - centerX1, 2) + Math.pow(centerY2 - centerY1, 2));
 
         if (d == 0) {
             int r = Math.min(radius1, radius2);
-            answer = Math.PI * r * r;
-        } else if (d <= radius1 + radius2) {
-            answer = Math.pow(radius1,2) * Math.acos((Math.pow(d,2) + Math.pow(radius1,2) - Math.pow(radius2,2)) /
-                    (2 * d * radius1)) + Math.pow(radius2,2) * Math.acos((Math.pow(d,2) + Math.pow(radius2,2) - Math.pow(radius1,2)) /
-                    (2 * d * radius2)) - 0.5 * Math.sqrt((-d + radius1 + radius2) * (d + radius1 - radius2) * (d - radius1 + radius2) *
-                    (d + radius1 + radius2));
+            return Math.PI * r * r;
         }
-        answer = BigDecimal.valueOf(answer)
-                .setScale(6, RoundingMode.HALF_UP)
-                .doubleValue();
-        return answer;
+
+        if (d > radius1 + radius2) {
+            return 0.0;
+        }
+
+        double angle1 = Math.acos((d * d + radius1 * radius1 - radius2 * radius2) / (2 * d * radius1));
+        double angle2 = Math.acos((d * d + radius2 * radius2 - radius1 * radius1) / (2 * d * radius2));
+        double intersectionArea = radius1 * radius1 * angle1 + radius2 * radius2 * angle2 - 0.5 * Math.sqrt((-d + radius1 + radius2) * (d + radius1 - radius2) * (d - radius1 + radius2) * (d + radius1 + radius2));
+
+        return BigDecimal.valueOf(intersectionArea).setScale(6, RoundingMode.HALF_UP).doubleValue();
     }
 
     public static void main(String[] args)
