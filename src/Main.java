@@ -10,6 +10,12 @@ import java.io.*;
 public class Main
 {
     public static double areaOfIntersection(int centerX1, int centerY1, int radius1, int centerX2, int centerY2, int radius2) {
+        
+        // Validate input
+        if (radius1 < 0 || radius2 < 0) {
+            throw new IllegalArgumentException("Radius values must be non-negative.");
+        }
+        
         double d = Math.sqrt(Math.pow(centerX2 - centerX1, 2) + Math.pow(centerY2 - centerY1, 2));
 
         if (d == 0) {
